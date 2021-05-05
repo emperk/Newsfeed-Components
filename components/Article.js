@@ -94,13 +94,13 @@ const data = [
   Your component is a function that takes an article object as its only argument,
   and returns a DOM node looking like the one below:
 
-  <div class="article">
-    <h2>{title of the article}</h2>
-    <p class="date">{date of the article}</p>
+  <div class="article">                         // mainArticle
+    <h2>{title of the article}</h2>             // articleTitle
+    <p class="date">{date of the article}</p>   // articleDate
 
-    {three separate paragraph elements}
+    {three separate paragraph elements}         // para1,2,3
 
-    <span class="expandButton">+</span>
+    <span class="expandButton">+</span>         // spanButton
   </div>
 
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
@@ -125,4 +125,36 @@ function articleMaker( articleObj ) {
   const paragraphTwo = document.createElement("p");
   const paragraphThree = document.createElement("p");
   const spanButton = document.createElement("span");
+
+  mainArticle.appendChild(articleTitle);
+  mainArticle.appendChild(articleDate);
+  mainArticle.appendChild(paragraphOne);
+  mainArticle.appendChild(paragraphTwo);
+  mainArticle.appendChild(paragraphThree);
+  mainArticle.appendChild(spanButton);
+
+  mainArticle.classList.add("article");
+  articleTitle.classList.add("title");
+  articleDate.classList.add("date");
+  spanButton.classList.add("expandButton");
+
+  articleTitle.textContent = articleObj.title;
+  articleDate.textContent = articleObj.date;
+  paragraphOne.textContent = articleObj.firstParagraph;
+  paragraphTwo.textContent = articleObj.secondParagraph;
+  paragraphThree.textContent = articleObj.thirdParagraph;
+  spanButton.textContent =  '+';
+
+  spanButton.addEventListener("click", (event) => {
+    mainArticle.classList.toggle("article-open");
+  });
+
+  spanButton.style.fontSize = "15px";
+  return mainArticle;
 }
+
+data.forEach((articleDataObj) => {
+  const newArticle = articleMaker(articleDataObj);
+  return lambdaArticles.append(newArticle);
+})
+
